@@ -5,7 +5,7 @@
         <TargetFramework>net5.0</TargetFramework>
         <RootNamespace>DiscordBot.Main</RootNamespace>
         <AssemblyName>DiscordBot.Main</AssemblyName>
-      <UserSecretsId>ba674587-057f-4016-a578-ea23031660c6</UserSecretsId>
+      <UserSecretsId>fe5345f4-dfb7-4d33-a3a4-84e1e34e6980</UserSecretsId>
   </PropertyGroup>
 
     <ItemGroup>

@@ -37,7 +37,13 @@ namespace DiscordBot.Bot
         /// </summary>
         [MinLength(1)]
         [NotNull]
-        public IEnumerable<string> CommandPrefixes { get; init; } 
+        public List<string> CommandPrefixes { get; init; }
+        
+        /// <summary>
+        /// List of URLs to "general motivation" images
+        /// </summary>
+        [NotNull]
+        public List<string> GeneralMotivationUrls { get; init; }
     }
 
     public class BotMain
@@ -68,7 +74,7 @@ namespace DiscordBot.Bot
                         Services = serviceProvider
                     }
                 )
-                .RegisterCommands<HelloCommandModule>();
+                .RegisterCommands<SendImageCommandModule>();
             
             // Log when bot joins a server.
             _discord.GuildCreated += (_, e) =>
@@ -80,13 +86,13 @@ namespace DiscordBot.Bot
         
         public async Task StartAsync()
         {
-            _logger.LogInformation($"Discord bot {GetType().Assembly.GetName().Version} starting");
+            _logger.LogInformation($"Motivation bot {GetType().Assembly.GetName().Version} starting");
             await _discord.ConnectAsync();
         }
 
         public async Task StopAsync()
         {
-            _logger.LogInformation("Discord bot stopping");
+            _logger.LogInformation("Motivation bot stopping");
             await _discord.DisconnectAsync();
         }
     }
