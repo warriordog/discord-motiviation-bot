@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DiscordBot.Bot.Util;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
@@ -55,11 +56,7 @@ namespace DiscordBot.Bot.Commands
             if (imageList == null || !imageList.Any())
             {
                 _logger.LogDebug("Image list is empty");
-                
-                await new DiscordMessageBuilder()
-                    .WithContent("Oops! I don't have any images of that type.")
-                    .WithReply(ctx.Message.Id)
-                    .SendAsync(ctx.Channel);
+                await ctx.Message.NewReply().WithContent("Oops! I don't have any images of that type.").SendAsync(ctx.Channel);
                 return;
             }
                     
@@ -68,12 +65,11 @@ namespace DiscordBot.Bot.Commands
             _logger.LogDebug("Sending {url}", imageUrl);
                     
             // Send reply
-            await new DiscordMessageBuilder()
+            await ctx.Message.NewReply()
                 .WithEmbed(new DiscordEmbedBuilder()
                     .WithImageUrl(imageUrl)
                     .Build()
                 )
-                .WithReply(ctx.Message.Id)
                 .SendAsync(ctx.Channel);
         }
 
