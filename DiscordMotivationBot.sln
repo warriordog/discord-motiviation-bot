@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetDiscordBotTemplate", "Main\Main.csproj", "{1E3F5AC8-26AB-41E3-A9F8-276DC5F003A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Main\Main.csproj", "{1E3F5AC8-26AB-41E3-A9F8-276DC5F003A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bot", "Bot\Bot.csproj", "{24DECC8A-9F52-49C1-9F0A-9D57E8FCFBFB}"
 EndProject
