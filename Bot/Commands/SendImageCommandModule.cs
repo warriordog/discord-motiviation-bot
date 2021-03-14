@@ -25,9 +25,8 @@ namespace DiscordBot.Bot.Commands
             _botOptions = botOptions;
         }
 
-
         [Command("anything")]
-        [Aliases("motivation", "general")]
+        [Aliases("general", "something")]
         [RequireBotPermissions(Permissions.SendMessages | Permissions.EmbedLinks)]
         public async Task AnythingCommand(CommandContext ctx)
         {
@@ -38,9 +37,87 @@ namespace DiscordBot.Bot.Commands
                 
                 try
                 {
-                    // TODO combine all categories
-                    // Send a "general motivation" image
-                    var imageList = _botOptions.Value.GeneralMotivationUrls;
+                    // Get options snapshot
+                    var botOptions = _botOptions.Value;
+                    
+                    // Combine all categories
+                    // TODO cache this somehow?
+                    var allImagesSet = MergeCollections(
+                        botOptions.SendAnythingUrls,
+                        botOptions.SendMotivationUrls,
+                        botOptions.SendLoveUrls,
+                        botOptions.SendValidationUrls);
+                    var allImagesList = allImagesSet.ToList();
+                    
+                    // Send an image from any category
+                    await SendRandomImage(ctx, allImagesList);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Uncaught exception");
+                }
+            }
+        }
+        
+        [Command("motivation")]
+        [Aliases("encouragement")]
+        [RequireBotPermissions(Permissions.SendMessages | Permissions.EmbedLinks)]
+        public async Task MotivationCommand(CommandContext ctx)
+        {
+            // Setup logging context
+            using (_logger.BeginScope($"{nameof(MotivationCommand)}@{ctx.Message.Id.ToString()}"))
+            {
+                _logger.LogDebug("Invoked by [{user}]", ctx.User);
+                
+                try
+                {
+                    // Send a "motivation" image
+                    var imageList = _botOptions.Value.SendMotivationUrls;
+                    await SendRandomImage(ctx, imageList);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Uncaught exception");
+                }
+            }
+        }
+        
+        [Command("love")]
+        [Aliases("affection")]
+        [RequireBotPermissions(Permissions.SendMessages | Permissions.EmbedLinks)]
+        public async Task LoveCommand(CommandContext ctx)
+        {
+            // Setup logging context
+            using (_logger.BeginScope($"{nameof(LoveCommand)}@{ctx.Message.Id.ToString()}"))
+            {
+                _logger.LogDebug("Invoked by [{user}]", ctx.User);
+                
+                try
+                {
+                    // Send a "love" image
+                    var imageList = _botOptions.Value.SendLoveUrls;
+                    await SendRandomImage(ctx, imageList);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Uncaught exception");
+                }
+            }
+        }
+        
+        [Command("validation")]
+        [RequireBotPermissions(Permissions.SendMessages | Permissions.EmbedLinks)]
+        public async Task ValidationCommand(CommandContext ctx)
+        {
+            // Setup logging context
+            using (_logger.BeginScope($"{nameof(ValidationCommand)}@{ctx.Message.Id.ToString()}"))
+            {
+                _logger.LogDebug("Invoked by [{user}]", ctx.User);
+                
+                try
+                {
+                    // Send a "love" image
+                    var imageList = _botOptions.Value.SendValidationUrls;
                     await SendRandomImage(ctx, imageList);
                 }
                 catch (Exception ex)
@@ -92,6 +169,26 @@ namespace DiscordBot.Bot.Commands
 
             // Get the image URL by index
             return imageList[idx];
+        }
+
+        private static HashSet<T> MergeCollections<T>(params ICollection<T>[] collections)
+        {
+            var set = new HashSet<T>();
+
+            // Add each collection
+            foreach (var collection in collections)
+            {
+                // Skip null collections
+                if (collection == null) continue;
+                
+                // Add all the contents
+                foreach (var item in collection)
+                {
+                    set.Add(item);
+                }
+            }
+            
+            return set;
         }
     }
 }

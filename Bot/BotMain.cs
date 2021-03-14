@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading.Tasks;
 using DiscordBot.Bot.Commands;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
-using DSharpPlus.EventArgs;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -40,10 +38,28 @@ namespace DiscordBot.Bot
         public List<string> CommandPrefixes { get; init; }
         
         /// <summary>
-        /// List of URLs to "general motivation" images
+        /// List of URLs to "anything" images
         /// </summary>
         [NotNull]
-        public List<string> GeneralMotivationUrls { get; init; }
+        public List<string> SendAnythingUrls { get; init; }
+        
+        /// <summary>
+        /// List of URLs to "motivation" images
+        /// </summary>
+        [NotNull]
+        public List<string> SendMotivationUrls { get; init; }
+        
+        /// <summary>
+        /// List of URLs to "love" images
+        /// </summary>
+        [NotNull]
+        public List<string> SendLoveUrls { get; init; }
+        
+        /// <summary>
+        /// List of URLs to "valication" images
+        /// </summary>
+        [NotNull]
+        public List<string> SendValidationUrls { get; init; }
     }
 
     public class BotMain
